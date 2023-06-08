@@ -1,0 +1,25 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:5.7-debian
+    ports: 
+    - 36000:3306
+    environment: 
+      MYSQL_ROOT_PASSWORD: lasvegas
+    volumes:
+    - users-volume:/var/lib/mysql
+
+  insert_data:
+    build: ./insert-data
+    depends_on: 
+    - mysql
+
+  api:
+    build: ./api
+    ports:
+    - 8080:8080
+    depends_on: 
+    - mysql
+
+volumes:
+  users-volume:
